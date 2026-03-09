@@ -11,7 +11,7 @@ const FloatingIcons = dynamic(() => import("@/components/canvas/FloatingIcons"),
 
 export default function Hero() {
   return (
-    <section className="relative w-full h-screen min-h-[800px] flex items-center overflow-hidden">
+    <section className="relative w-full h-[100dvh] min-h-[600px] flex items-center overflow-hidden">
       {/* 3D Background */}
       <div className="absolute inset-0 z-0">
         <Scene>
@@ -38,12 +38,12 @@ export default function Hero() {
           <p className="text-lg md:text-xl text-gray-400 mb-8 max-w-xl leading-relaxed">
             AmplifyCO.digital helps businesses grow online with websites, reels, social media content, and modern marketing strategies.
           </p>
-          <div className="flex flex-wrap gap-4">
-            <Button size="lg" className="rounded-full bg-white text-black hover:bg-gray-200 h-14 px-8 text-lg transition-transform hover:scale-105 active:scale-95">
-              <Link href="/pricing">View Packages</Link>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Button size="lg" className="rounded-full bg-white text-black hover:bg-gray-200 h-14 px-8 text-lg w-full sm:w-auto transition-transform hover:scale-105 active:scale-95">
+              <Link href="/pricing" className="w-full text-center">View Packages</Link>
             </Button>
-            <Button size="lg" variant="outline" className="rounded-full border-white/20 hover:bg-white/10 text-white backdrop-blur-md h-14 px-8 text-lg transition-transform hover:scale-105 active:scale-95">
-              <Link href="/contact">Start Your Project</Link>
+            <Button size="lg" variant="outline" className="rounded-full border-white/20 hover:bg-white/10 text-white backdrop-blur-md h-14 px-8 text-lg w-full sm:w-auto transition-transform hover:scale-105 active:scale-95">
+              <Link href="/contact" className="w-full text-center">Start Your Project</Link>
             </Button>
           </div>
         </motion.div>

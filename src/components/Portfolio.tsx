@@ -41,7 +41,7 @@ const projects = [
   }
 ];
 
-const PortfolioCard = ({ project }: { project: Record<string, any> }) => {
+const PortfolioCard = ({ project }: { project: Record<string, string | number> }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);

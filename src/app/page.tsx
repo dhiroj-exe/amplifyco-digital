@@ -2,7 +2,7 @@ import Hero from "@/components/Hero";
 import Services from "@/components/Services";
 import Process from "@/components/Process";
 import GlobalImpact from "@/components/GlobalImpact";
-import GrowthEngine from "@/components/GrowthEngine";
+import PremiumShowcase from "@/components/PremiumShowcase";
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
       <Services />
       <Process />
       <GlobalImpact />
-      <GrowthEngine />
+      <PremiumShowcase />
       
       {/* Footer CTA */}
       <footer className="py-24 bg-[#0a0a0a] border-t border-white/5 pb-12">

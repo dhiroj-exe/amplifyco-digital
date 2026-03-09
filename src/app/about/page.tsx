@@ -3,44 +3,42 @@
 import { motion } from "framer-motion";
 import React, { useRef, useState } from "react";
 
-import { Twitter, Linkedin, Instagram } from "lucide-react";
+import { Twitter, Linkedin, Instagram, Eye, Sparkles, Zap } from "lucide-react";
 
 const founders = [
   {
-    name: "Alex Vance",
-    role: "Chief Marketing Officer",
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop",
+    name: "Kumar Arav Routray",
+    role: "Co-Founder · Growth Lead",
+    image: "/team/founder_1.jpg",
     color: "from-blue-500/20 to-indigo-500/5",
-    intro: "We build websites so good your competitors might start crying.",
-    bio: "Alex spent a decade leading growth strategies for Fortune 500 companies before realizing the real impact happens at the scale of ambitious local businesses.",
+    intro: "Driving business growth through strategy, client relationships, and digital positioning.",
+    bio: "Focused on helping brands expand their reach and turn online visibility into real customers.",
     social: { twitter: "#", linkedin: "#", instagram: "#" },
-    skills: ["Growth Strategy", "Conversion Optimization", "Brand Warfare"],
-    stat: "1,400+ Campaigns"
+    skills: ["Growth Strategy", "Client Relations", "Digital Positioning"]
   },
   {
-    name: "Sarah Chen",
-    role: "Lead Designer & Creative Director",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop",
+    name: "Dhiroj Nayak",
+    role: "Co-Founder · Technical Lead",
+    image: "/team/founder_2.jpg",
     color: "from-purple-500/20 to-pink-500/5",
-    intro: "I make colors look expensive and pixels fall perfectly in line.",
-    bio: "Obsessed with typography and micro-interactions, Sarah ensures that every single touchpoint on an AmplifyCO brand feels incredibly premium and trustworthy.",
+    intro: "Building modern websites, digital platforms, and AI-powered systems.",
+    bio: "Focused on helping businesses establish a powerful online presence and scale efficiently with robust architectures.",
     social: { twitter: "#", linkedin: "#", instagram: "#" },
-    skills: ["UI/UX Design", "Motion Graphics", "Interaction Architecture"],
-    stat: "40+ Awwwards"
+    skills: ["Web Development", "Platform Architecture", "AI Systems"]
   },
   {
-    name: "Marcus Thorne",
-    role: "Head of Growth & Strategy",
-    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=600&auto=format&fit=crop",
+    name: "Trinath Mohanty",
+    role: "Co-Founder · Creative Lead",
+    image: "/team/founder_3.jpg",
     color: "from-emerald-500/20 to-teal-500/5",
-    intro: "I analyze data until it confesses the path to your highest ROI.",
-    bio: "A data engineer turned marketer, Marcus architects the funnels that turn beautiful websites into relentless lead-generation machines.",
+    intro: "Crafting visual experiences, reels, and brand storytelling that capture attention.",
+    bio: "Dedicated to making businesses stand out in the digital world through highly engaging content and creative direction.",
     social: { twitter: "#", linkedin: "#", instagram: "#" },
-    skills: ["Performance Marketing", "Data Engineering", "Funnels"],
-    stat: "$50M+ Generated"
+    skills: ["Visual Experience", "Brand Storytelling", "Content Creation"]
   },
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const FounderCard = ({ founder, index }: { founder: Record<string, any>; index: number }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [rotateX, setRotateX] = useState(0);
@@ -249,32 +247,14 @@ export default function AboutPage() {
           </motion.p>
         </div>
 
-        {/* Agency Stats & Mission */}
+        {/* Agency Mission Statement */}
         <div className="mb-32 max-w-5xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 mb-16">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-[#111111] border border-white/5 rounded-3xl p-8 text-center hover:-translate-y-2 transition-transform duration-500 hover:border-white/10">
-              <div className="text-4xl md:text-5xl font-bold text-white mb-2">150+</div>
-              <div className="text-sm font-medium text-gray-400 uppercase tracking-widest">Projects</div>
-            </motion.div>
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="bg-[#111111] border border-white/5 rounded-3xl p-8 text-center hover:-translate-y-2 transition-transform duration-500 hover:border-white/10">
-              <div className="text-4xl md:text-5xl font-bold text-white mb-2">$10M</div>
-              <div className="text-sm font-medium text-gray-400 uppercase tracking-widest">Client Rev</div>
-            </motion.div>
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="bg-[#111111] border border-white/5 rounded-3xl p-8 text-center hover:-translate-y-2 transition-transform duration-500 hover:border-white/10">
-              <div className="text-4xl md:text-5xl font-bold text-white mb-2">99%</div>
-              <div className="text-sm font-medium text-gray-400 uppercase tracking-widest">Retention</div>
-            </motion.div>
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }} className="bg-[#111111] border border-white/5 rounded-3xl p-8 text-center hover:-translate-y-2 transition-transform duration-500 hover:border-white/10">
-              <div className="text-4xl md:text-5xl font-bold text-white mb-2">3</div>
-              <div className="text-sm font-medium text-gray-400 uppercase tracking-widest">Founders</div>
-            </motion.div>
-          </div>
-
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="p-8 md:p-12 rounded-3xl bg-gradient-to-br from-indigo-500/10 to-purple-500/5 border border-indigo-500/20 relative overflow-hidden"
+            initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="p-8 md:p-12 rounded-3xl bg-gradient-to-br from-indigo-500/10 to-purple-500/5 border border-indigo-500/20 relative overflow-hidden shadow-[0_20px_60px_-15px_rgba(99,102,241,0.2)]"
           >
             <div className="relative z-10">
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-6">The AmplifyCO Mission</h3>
@@ -291,11 +271,133 @@ export default function AboutPage() {
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-white tracking-tighter">Small Team. Massive Impact.</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-32">
           {founders.map((founder, index) => (
             <FounderCard key={index} founder={founder} index={index} />
           ))}
         </div>
+
+        {/* Floating Core Values Section */}
+        <div className="relative mb-32 py-32 perspective-[2000px]">
+          {/* Animated Matrix Grid Background */}
+          <div className="absolute inset-0 bg-[url('https://transparenttextures.com/patterns/cubes.png')] opacity-[0.02]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#050505] to-transparent pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/5 rounded-full blur-[150px] pointer-events-none" />
+          
+          <div className="text-center mb-16 relative z-10">
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-500 tracking-tighter"
+            >
+              Our Philosophy
+            </motion.h2>
+          </div>
+
+          <motion.div 
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={{
+              hidden: {},
+              show: {
+                transition: {
+                  staggerChildren: 0.2
+                }
+              }
+            }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10 px-4"
+          >
+            {[
+              { title: "Radical Transparency", desc: "No vanity metrics. No fluff. Just raw data and measurable ROI that translates directly to your bottom line.", icon: <Eye strokeWidth={1.5} className="w-8 h-8 text-blue-400 group-hover:text-blue-300 transition-colors" />, color: "from-blue-500/20 to-indigo-500/5", glow: "shadow-[0_0_30px_rgba(59,130,246,0.3)]" },
+              { title: "Relentless Aesthetics", desc: "We believe that premium design is a profound competitive advantage. First impressions dictate customer trust.", icon: <Sparkles strokeWidth={1.5} className="w-8 h-8 text-purple-400 group-hover:text-purple-300 transition-colors" />, color: "from-purple-500/20 to-pink-500/5", glow: "shadow-[0_0_30px_rgba(168,85,247,0.3)]" },
+              { title: "Obsessive Execution", desc: "Strategy without execution is hallucination. We architect, build, and deploy with military precision.", icon: <Zap strokeWidth={1.5} className="w-8 h-8 text-emerald-400 group-hover:text-emerald-300 transition-colors" />, color: "from-emerald-500/20 to-teal-500/5", glow: "shadow-[0_0_30px_rgba(16,185,129,0.3)]" }
+            ].map((value, idx) => (
+              <motion.div
+                key={idx}
+                variants={{
+                  hidden: { opacity: 0, y: 50, rotateX: 20 },
+                  show: { opacity: 1, y: 0, rotateX: 0, transition: { type: "spring", stiffness: 100, damping: 20 } }
+                }}
+                whileHover={{ 
+                  y: -15, 
+                  scale: 1.02,
+                  rotateY: 5,
+                  transition: { duration: 0.4, ease: "easeOut" }
+                }}
+                className="group relative p-10 rounded-[40px] bg-[#070707] border border-white/5 overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.02)] hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,1)] transition-all duration-700"
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                {/* Immersive Card Glow */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${value.color} opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
+                <div className="absolute -inset-[150%] bg-gradient-to-r from-transparent via-white/10 to-transparent rotate-45 translate-x-[-100%] group-hover:animate-[sweep_2.5s_ease-in-out_infinite]" />
+                
+                {/* Content Container (lifted off card) */}
+                <div className="relative z-10" style={{ transform: "translateZ(30px)" }}>
+                  <div className={`mb-8 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl w-16 h-16 flex items-center justify-center rounded-2xl border border-white/10 group-hover:scale-110 group-hover:-translate-y-2 group-hover:rotate-6 transition-all duration-500 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_8px_16px_rgba(0,0,0,0.5)] group-hover:${value.glow}`}>
+                    {value.icon}
+                  </div>
+                  <h4 className="text-2xl font-black text-white mb-4 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-400 transition-all duration-500">
+                    {value.title}
+                  </h4>
+                  <p className="text-gray-400 text-[15px] leading-relaxed group-hover:text-gray-300 transition-colors duration-500">
+                    {value.desc}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Ultra Premium Call to Action */}
+        <motion.div 
+          initial={{ opacity: 0, y: 50, scale: 0.95, filter: "blur(20px)" }}
+          whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          className="relative rounded-[60px] border border-white/10 p-16 md:p-24 text-center overflow-hidden bg-[#030303] shadow-[0_40px_100px_-20px_rgba(0,0,0,1)] group"
+        >
+          {/* Animated CTA Background Orbs - More intense on hover */}
+          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-indigo-500/20 rounded-full blur-[120px] animate-[pulse_4s_easeInOut_infinite] group-hover:bg-indigo-500/30 transition-colors duration-1000" />
+          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-[120px] animate-[pulse_6s_easeInOut_infinite] group-hover:bg-purple-500/30 transition-colors duration-1000" />
+          
+          {/* Subtle noise texture overlay */}
+          <div className="absolute inset-0 opacity-[0.02] bg-[url('https://transparenttextures.com/patterns/stardust.png')] mix-blend-overlay pointer-events-none" />
+
+          <div className="relative z-10 flex flex-col items-center">
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 mb-10 backdrop-blur-2xl shadow-[0_0_30px_rgba(255,255,255,0.05)]"
+            >
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]"></span>
+              </span>
+              <span className="text-xs font-bold text-gray-300 uppercase tracking-[0.2em]">Accepting New Clients Space</span>
+            </motion.div>
+            
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-black text-white mb-8 tracking-tighter drop-shadow-2xl">
+              Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 animate-pulse">Amplify</span> Your Brand?
+            </h2>
+            <p className="text-gray-400 text-xl md:text-2xl max-w-3xl mx-auto mb-12 font-medium leading-relaxed">
+              Stop settling for mediocrity. Join the ambitious founders who trust us to architect their digital dominance.
+            </p>
+            
+            <motion.a 
+              href="/contact"
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
+              className="group/btn relative inline-flex items-center justify-center px-10 py-5 bg-white text-black font-black text-lg uppercase tracking-[0.2em] rounded-full overflow-hidden shadow-[0_20px_40px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_30px_60px_-15px_rgba(255,255,255,0.5)] transition-all duration-500"
+            >
+              <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-indigo-200 via-white to-purple-200 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
+              <span className="relative z-10 flex items-center gap-3">
+                Book a Strategy Call
+                <svg className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+              </span>
+            </motion.a>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
