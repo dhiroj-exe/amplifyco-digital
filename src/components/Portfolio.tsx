@@ -6,39 +6,33 @@ import { motion, useScroll, useTransform } from "framer-motion";
 const projects = [
   {
     id: 1,
-    title: "Acme Corp Redesign",
-    category: "Website Development",
-    color: "bg-blue-900/40",
-    gradient: "from-blue-500/20 to-transparent"
+    title: "Coming Soon",
+    category: "Case Study",
+    color: "bg-gray-900/40",
+    gradient: "from-gray-500/20 to-transparent"
   },
   {
     id: 2,
-    title: "Fitness App Launch",
-    category: "Social Media Reels",
-    color: "bg-emerald-900/40",
-    gradient: "from-emerald-500/20 to-transparent"
+    title: "Coming Soon",
+    category: "Case Study",
+    color: "bg-gray-900/40",
+    gradient: "from-gray-500/20 to-transparent"
   },
   {
     id: 3,
-    title: "SaaS Dashboard UI",
-    category: "UI/UX Design",
-    color: "bg-purple-900/40",
-    gradient: "from-purple-500/20 to-transparent"
-  },
-  {
-    id: 4,
-    title: "E-commerce Growth",
-    category: "Digital Strategy",
-    color: "bg-orange-900/40",
-    gradient: "from-orange-500/20 to-transparent"
-  },
-  {
-    id: 5,
-    title: "Local Cafe Branding",
-    category: "Social Media Content",
-    color: "bg-rose-900/40",
-    gradient: "from-rose-500/20 to-transparent"
+    title: "Coming Soon",
+    category: "Case Study",
+    color: "bg-gray-900/40",
+    gradient: "from-gray-500/20 to-transparent"
   }
+  // Space remaining to add new actual projects here later
+  // {
+  //   id: 4,
+  //   title: "Client Project Name",
+  //   category: "Website Development",
+  //   color: "bg-blue-900/40",
+  //   gradient: "from-blue-500/20 to-transparent"
+  // }
 ];
 
 const PortfolioCard = ({ project }: { project: Record<string, string | number> }) => {

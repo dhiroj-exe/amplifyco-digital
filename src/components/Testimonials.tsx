@@ -1,46 +1,54 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
 // Expand testimonials to make the slider more impressive
 const testimonials = [
   {
-    name: "Sarah Jenkins",
-    role: "CEO, TechFlow",
-    quote: "AmplifyCO completely transformed our online presence. Our lead volume tripled in the first 3 months of launching our new site.",
-    avatar: "S",
-    company: "TechFlow Inc."
+    name: "Coming Soon",
+    role: "Future Partner",
+    quote: "We are currently compiling our latest client reviews and success stories. Check back soon to see what our partners have to say about our work.",
+    avatar: "-",
+    company: "Stay Tuned"
   },
   {
-    name: "Marcus Aurelius",
-    role: "Founder, Stoic Athletics",
-    quote: "The reels they created for us went viral three times in one month. We couldn't believe the explosive growth.",
-    avatar: "M",
-    company: "Stoic Athletics"
+    name: "Coming Soon",
+    role: "Future Partner",
+    quote: "We are currently compiling our latest client reviews and success stories. Check back soon to see what our partners have to say about our work.",
+    avatar: "-",
+    company: "Stay Tuned"
   },
   {
-    name: "Jessica Chobot",
-    role: "Director, Cafe Lux",
-    quote: "Their websites are beautiful and lightning fast. The attention to detail makes our brand look like an enterprise company.",
-    avatar: "J",
-    company: "Cafe Lux"
+    name: "Coming Soon",
+    role: "Future Partner",
+    quote: "We are currently compiling our latest client reviews and success stories. Check back soon to see what our partners have to say about our work.",
+    avatar: "-",
+    company: "Stay Tuned"
   },
   {
-    name: "David Chen",
-    role: "Marketing Head",
-    quote: "The team's ability to capture our brand voice and translate it into high-converting landing pages is unmatched. ROI is through the roof.",
-    avatar: "D",
-    company: "Nexus Dynamics"
+    name: "Coming Soon",
+    role: "Future Partner",
+    quote: "We are currently compiling our latest client reviews and success stories. Check back soon to see what our partners have to say about our work.",
+    avatar: "-",
+    company: "Stay Tuned"
   },
   {
-    name: "Elena Rodriguez",
-    role: "E-commerce Founder",
-    quote: "From 0 to $50k/MRR in 6 months using their growth strategies. The digital launch package was the best investment we made.",
-    avatar: "E",
-    company: "Lumina Beauty"
+    name: "Coming Soon",
+    role: "Future Partner",
+    quote: "We are currently compiling our latest client reviews and success stories. Check back soon to see what our partners have to say about our work.",
+    avatar: "-",
+    company: "Stay Tuned"
   }
+  // Add new reviews here once we get them:
+  // {
+  //   name: "John Doe",
+  //   role: "CEO",
+  //   quote: "Amazing work, highly recommended.",
+  //   avatar: "J",
+  //   company: "Acme Corp"
+  // }
 ];
 
 export default function Testimonials() {
@@ -53,6 +61,13 @@ export default function Testimonials() {
   const prevTestimonial = () => {
     setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <section className="py-24 bg-[#0B0B0B] border-t border-white/5 relative overflow-hidden">

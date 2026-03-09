@@ -8,37 +8,37 @@ import { Star, TrendingUp, Target, BarChart } from "lucide-react";
 
 const successStories = [
   {
-    name: "TechFlow Solutions",
-    role: "Sarah Jenkins, CEO",
-    image: "https://images.unsplash.com/photo-1556761175-5973dc0f32d7?q=80&w=800&auto=format&fit=crop",
+    name: "Coming Soon",
+    role: "Future Partner",
+    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop",
+    color: "from-gray-600 to-gray-900",
+    bgAccent: "bg-gray-500/20",
+    icon: TrendingUp,
+    intro: "Detailed case study coming soon.",
+    bio: "We are currently compiling the data and metrics for our successful client transformations. Check back later for a full breakdown of how we engineer dominance.",
+    stat: "TBD"
+  },
+  {
+    name: "Coming Soon",
+    role: "Future Partner",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop",
     color: "from-blue-600 to-indigo-900",
     bgAccent: "bg-blue-500/20",
-    icon: TrendingUp,
-    intro: "AmplifyCO completely reimagined our digital acquisition funnel.",
-    bio: "Before working with AmplifyCO, we were stuck at $2M ARR with minimal inward lead generation. Their new web infrastructure and brand positioning helped us scale to $10M in just 14 months.",
-    stat: "$10M+ ARR"
-  },
-  {
-    name: "Nova Dynamics",
-    role: "Marcus Chen, Founder",
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=800&auto=format&fit=crop",
-    color: "from-purple-600 to-pink-900",
-    bgAccent: "bg-purple-500/20",
     icon: Target,
-    intro: "The most insanely high-converting landing pages we've ever seen.",
-    bio: "We burned thousands on ads with no return. AmplifyCO stepped in, ripped our old site down, and built a machine that converts at a staggering 14% on completely cold traffic.",
-    stat: "14% Conversion"
+    intro: "Detailed case study coming soon.",
+    bio: "We are currently compiling the data and metrics for our successful client transformations. Check back later for a full breakdown of how we engineer dominance.",
+    stat: "TBD"
   },
   {
-    name: "Atlas Fitness",
-    role: "Elena Rodriguez, CMO",
-    image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop",
+    name: "Coming Soon",
+    role: "Future Partner",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop",
     color: "from-emerald-600 to-teal-900",
     bgAccent: "bg-emerald-500/20",
     icon: BarChart,
-    intro: "Our brand finally matches the quality of our premium services.",
-    bio: "AmplifyCO didn't just design a website; they architected a digital experience that completely revolutionized our brand perception among high-net-worth clients.",
-    stat: "300% ROI"
+    intro: "Detailed case study coming soon.",
+    bio: "We are currently compiling the data and metrics for our successful client transformations. Check back later for a full breakdown of how we engineer dominance.",
+    stat: "TBD"
   },
 ];
 
@@ -86,7 +86,7 @@ export default function TestimonialsPage() {
 
       {/* Featured Work / Portfolio moved here */}
       <Portfolio />
-      
+
       {/* The "Book Pages" Accordion replacing the video block */}
       <div className="max-w-6xl mx-auto px-6 md:px-12 mt-32">
         <div className="text-center mb-16">
