@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import MeetingModal from "./MeetingModal";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -14,9 +16,12 @@ const navLinks = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const [isMeetingModalOpen, setIsMeetingModalOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 py-4 px-6 md:px-12 backdrop-blur-md bg-[#0b0b0b]/60 border-b border-white/5 transition-all duration-300">
+    <>
+      <MeetingModal isOpen={isMeetingModalOpen} onClose={() => setIsMeetingModalOpen(false)} />
+      <header className="fixed top-0 left-0 w-full z-50 py-4 px-6 md:px-12 backdrop-blur-md bg-[#0b0b0b]/60 border-b border-white/5 transition-all duration-300">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <Link href="/" className="flex items-center gap-1">
           {/* We're using standard img tag here to maintain simple natural sizing for the logo */}
@@ -37,12 +42,16 @@ export default function Navbar() {
             </Link>
           ))}
         </nav>
-        <div className="hidden md:flex">
+        <div className="hidden md:flex gap-4">
+          <Button variant="outline" className="rounded-full border-white/20 text-white hover:bg-white/10 transition-colors" onClick={() => setIsMeetingModalOpen(true)}>
+            Schedule Meeting
+          </Button>
           <Button variant="default" className="rounded-full bg-white text-black hover:bg-gray-200 transition-colors">
             <Link href="/contact">Start Project</Link>
           </Button>
         </div>
       </div>
     </header>
+    </>
   );
 }

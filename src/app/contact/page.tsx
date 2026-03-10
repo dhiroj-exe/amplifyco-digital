@@ -1,230 +1,268 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Mail, Instagram, MessageCircle } from "lucide-react";
+import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useState, useEffect } from "react";
 import { getPackageById } from "@/lib/pricing";
 
-function ExecutiveIntakeForm() {
+function ContactForm() {
   const searchParams = useSearchParams();
   const packageParam = searchParams.get('package');
   const activePackage = packageParam ? getPackageById(packageParam) : null;
   const packageName = activePackage ? activePackage.name : packageParam;
 
-  const defaultSubject = packageName ? `Inquiry: ${packageName} Custom Execution` : "";
+  const defaultSubject = packageName ? `Inquiry: ${packageName}` : "";
 
-  // Dynamic label styling based on input focus/content for the "Zero Border" look
-  const [focusedInput, setFocusedInput] = useState<string | null>(null);
-  const [formValues, setFormValues] = useState({ name: '', email: '', subject: defaultSubject, message: '' });
+  const [formValues, setFormValues] = useState({ name: '', email: '', phone: '', subject: defaultSubject, message: '' });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [focusedField, setFocusedField] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formValues.name || !formValues.email) return;
+
+    setStatus('loading');
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formValues.name,
+          email: formValues.email,
+          phone: formValues.phone,
+          serviceInterested: formValues.subject,
+          message: formValues.message,
+        })
+      });
+
+      if (res.ok) {
+        setStatus('success');
+        setFormValues({ name: '', email: '', phone: '', subject: defaultSubject, message: '' });
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus('error');
+    }
+  };
+
+  const inputClasses = (fieldName: string) => `
+    w-full bg-black/40 border transition-all duration-300 rounded-xl px-5 py-4 text-white placeholder:text-white/20 focus:outline-none backdrop-blur-sm
+    ${focusedField === fieldName ? 'border-white/50 bg-white/5 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'border-white/10 hover:border-white/30'}
+  `;
 
   return (
-    <div className="w-full flex justify-center py-12 md:py-24">
-      
-      <motion.form 
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.2 }}
-        className="w-full max-w-xl space-y-16" 
-        onSubmit={(e) => e.preventDefault()}
-      >
-        
-        {/* Massive Minimalist Input: Name */}
-        <div className="relative group">
-          <label 
-            htmlFor="name" 
-            className={`absolute left-0 transition-all duration-300 font-light pointer-events-none
-              ${focusedInput === 'name' || formValues.name ? '-top-6 text-sm text-white/50 tracking-widest uppercase' : 'top-0 text-3xl md:text-5xl text-white/30'}
-            `}
-          >
-            {focusedInput === 'name' || formValues.name ? 'Your Name' : 'Who are you?'}
-          </label>
+    <motion.form 
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.2 }}
+      onSubmit={handleSubmit}
+      className="w-full max-w-2xl mx-auto space-y-6"
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-white/70 tracking-wide ml-1">Full Name *</label>
           <input 
-            id="name"
+            required
             type="text"
             value={formValues.name}
             onChange={(e) => setFormValues({...formValues, name: e.target.value})}
-            onFocus={() => setFocusedInput('name')}
-            onBlur={() => setFocusedInput(null)}
-            className="w-full bg-transparent border-b border-white/10 text-3xl md:text-5xl font-light text-white pb-4 focus:outline-none focus:border-white transition-colors rounded-none placeholder:text-transparent"
-            placeholder="Name"
+            onFocus={() => setFocusedField('name')}
+            onBlur={() => setFocusedField(null)}
+            className={inputClasses('name')}
+            placeholder="John Doe"
           />
         </div>
 
-        {/* Massive Minimalist Input: Email */}
-        <div className="relative group">
-          <label 
-            htmlFor="email" 
-            className={`absolute left-0 transition-all duration-300 font-light pointer-events-none
-              ${focusedInput === 'email' || formValues.email ? '-top-6 text-sm text-white/50 tracking-widest uppercase' : 'top-0 text-3xl md:text-5xl text-white/30'}
-            `}
-          >
-            {focusedInput === 'email' || formValues.email ? 'Your Email' : 'Where can we reach you?'}
-          </label>
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-white/70 tracking-wide ml-1">Email Address *</label>
           <input 
-            id="email"
+            required
             type="email"
             value={formValues.email}
             onChange={(e) => setFormValues({...formValues, email: e.target.value})}
-            onFocus={() => setFocusedInput('email')}
-            onBlur={() => setFocusedInput(null)}
-            className="w-full bg-transparent border-b border-white/10 text-3xl md:text-5xl font-light text-white pb-4 focus:outline-none focus:border-white transition-colors rounded-none placeholder:text-transparent"
-            placeholder="Email"
+            onFocus={() => setFocusedField('email')}
+            onBlur={() => setFocusedField(null)}
+            className={inputClasses('email')}
+            placeholder="john@company.com"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-white/70 tracking-wide ml-1">Phone Number (Optional)</label>
+          <input 
+            type="tel"
+            value={formValues.phone}
+            onChange={(e) => setFormValues({...formValues, phone: e.target.value})}
+            onFocus={() => setFocusedField('phone')}
+            onBlur={() => setFocusedField(null)}
+            className={inputClasses('phone')}
+            placeholder="+1 (555) 000-0000"
           />
         </div>
 
-        {/* Optional Subject Line */}
-        <div className="relative group pt-4">
-           <label className="text-sm text-white/50 tracking-widest uppercase mb-4 block">Discussion Topic</label>
-           <input 
-              id="subject"
-              type="text"
-              value={formValues.subject}
-              onChange={(e) => setFormValues({...formValues, subject: e.target.value})}
-              onFocus={() => setFocusedInput('subject')}
-              onBlur={() => setFocusedInput(null)}
-              className="w-full bg-transparent border-b border-white/10 text-xl md:text-2xl font-light text-white pb-4 focus:outline-none focus:border-white transition-colors rounded-none placeholder:text-white/20"
-              placeholder="E.g., Complete Brand Overhaul"
-           />
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-white/70 tracking-wide ml-1">Service Interested In</label>
+          <input 
+            type="text"
+            value={formValues.subject}
+            onChange={(e) => setFormValues({...formValues, subject: e.target.value})}
+            onFocus={() => setFocusedField('subject')}
+            onBlur={() => setFocusedField(null)}
+            className={inputClasses('subject')}
+            placeholder="e.g. Website Overhaul"
+          />
         </div>
+      </div>
 
-        {/* Minimalist Textarea */}
-        <div className="relative group pt-4">
-           <label className="text-sm text-white/50 tracking-widest uppercase mb-4 block">Project Details</label>
-           <textarea 
-              id="message"
-              value={formValues.message}
-              onChange={(e) => setFormValues({...formValues, message: e.target.value})}
-              onFocus={() => setFocusedInput('message')}
-              onBlur={() => setFocusedInput(null)}
-              className="w-full bg-transparent border-b border-white/10 text-xl font-light text-white pb-4 focus:outline-none focus:border-white transition-colors rounded-none min-h-[120px] resize-none placeholder:text-white/20"
-              placeholder="Tell us about the legacy you want to build..."
-           />
-        </div>
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-white/70 tracking-wide ml-1">Message</label>
+        <textarea 
+          required
+          value={formValues.message}
+          onChange={(e) => setFormValues({...formValues, message: e.target.value})}
+          onFocus={() => setFocusedField('message')}
+          onBlur={() => setFocusedField(null)}
+          className={`${inputClasses('message')} min-h-[150px] resize-none`}
+          placeholder="Tell us about your project goals..."
+        />
+      </div>
 
-        {/* Magnetic Aesthetic Submit Button */}
-        <div className="pt-8">
-           <button className="group relative w-full overflow-hidden rounded-full inline-flex p-[1px]">
-             <span className="absolute inset-[-1000%] animate-[spin_5s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#fff_0%,#fff_5%,transparent_50%)] opacity-20 group-hover:opacity-100 transition-opacity duration-700" />
-             <div className="relative flex items-center justify-between w-full px-8 py-6 bg-black backdrop-blur-3xl rounded-full text-white font-light tracking-[0.2em] uppercase text-sm hover:bg-white/5 transition-colors duration-500">
-                <span>Initiate Sequence</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-500" />
-             </div>
-           </button>
-        </div>
-
-      </motion.form>
-    </div>
+      <div className="pt-4 relative">
+        <button 
+          type="submit" 
+          disabled={status === 'loading' || status === 'success'}
+          className="group relative w-full overflow-hidden rounded-xl inline-flex p-[1px] disabled:opacity-70 disabled:cursor-not-allowed transition-transform active:scale-[0.99]"
+        >
+          <span className="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#fff_0%,#fff_5%,transparent_50%)] opacity-30 group-hover:opacity-100 transition-opacity duration-700" />
+          <div className="relative flex items-center justify-center w-full px-8 py-5 bg-black/80 backdrop-blur-xl rounded-xl text-white font-medium tracking-wide text-lg hover:bg-white/10 transition-colors duration-500 gap-3 border border-white/10">
+            <span>
+              {status === 'loading' ? 'Sending Request...' : 
+               status === 'success' ? 'Message Sent Successfully' : 
+               'Send Request'}
+            </span>
+            <ArrowRight className={`w-5 h-5 transition-transform duration-500 ${status === 'success' ? 'text-green-400' : 'group-hover:translate-x-2'}`} />
+          </div>
+        </button>
+        
+        {status === 'error' && (
+          <motion.p initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} className="absolute -bottom-8 left-0 text-red-400 text-sm w-full text-center">
+             An error occurred. Please try again or contact us directly.
+          </motion.p>
+        )}
+        {status === 'success' && (
+          <motion.p initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} className="absolute -bottom-8 left-0 text-green-400 text-sm w-full text-center">
+             Thank you! Our team will reach out within 24 hours.
+          </motion.p>
+        )}
+      </div>
+    </motion.form>
   );
 }
 
-// Full page layout mimicking high-end architectural firm sites
 export default function ContactPage() {
-  
-  // Rotating geometric background state
-  const [rotation, setRotation] = useState(0);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
   useEffect(() => {
-    const handleScroll = () => {
-      setRotation(window.scrollY * 0.1);
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#000] overflow-hidden selection:bg-white/30 selection:text-white">
+    <div className="min-h-screen bg-[#050505] relative overflow-hidden selection:bg-white/30 selection:text-white pt-24 pb-20">
       
-      {/* Absolute Ambient Background Layer */}
-      <div className="fixed inset-0 opacity-[0.04] pointer-events-none z-10 mix-blend-overlay" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }}></div>
+      {/* Interactive Background Glow */}
+      <motion.div 
+        className="absolute w-[800px] h-[800px] rounded-full mix-blend-screen pointer-events-none opacity-20 blur-[100px]"
+        animate={{
+          x: mousePosition.x - 400,
+          y: mousePosition.y - 400,
+        }}
+        transition={{ type: "spring", stiffness: 50, damping: 30, mass: 0.5 }}
+        style={{
+          background: 'radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(0,0,0,0) 70%)',
+        }}
+      />
 
-      <div className="flex flex-col lg:flex-row min-h-screen w-full relative z-20">
-         
-         {/* Left Side: Editorial Typography & Ambient Data */}
-         <div className="w-full lg:w-1/2 min-h-[50vh] lg:min-h-screen relative flex items-center p-8 md:p-16 lg:p-24 border-b lg:border-b-0 lg:border-r border-white/10">
-            
-            {/* The Massive Geometric Rotating Ambient Glow */}
-            <motion.div 
-               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white/5 rounded-full pointer-events-none"
-               style={{ rotate: rotation }}
-               initial={{ opacity: 0, scale: 0.8 }}
-               animate={{ opacity: 1, scale: 1 }}
-               transition={{ duration: 2, ease: "easeOut" }}
-            >
-               <div className="absolute top-0 w-full h-full border border-white/5 rounded-full rotate-45" />
-               <div className="absolute top-0 w-full h-full border border-white/5 rounded-full -rotate-45" />
-               {/* Slow Breathing Pulse */}
-               <motion.div 
-                 animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
-                 transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                 className="absolute inset-0 bg-blue-500/10 blur-[100px] rounded-full" 
-               />
-            </motion.div>
+      {/* Grid Pattern Background */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-30" 
+        style={{
+          backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)`,
+          backgroundSize: '4rem 4rem',
+          maskImage: 'radial-gradient(circle at center, black, transparent 80%)',
+          WebkitMaskImage: 'radial-gradient(circle at center, black, transparent 80%)'
+        }}
+      />
 
-            <div className="relative z-10 w-full">
-               <motion.div
-                 initial={{ opacity: 0, y: 20 }}
-                 animate={{ opacity: 1, y: 0 }}
-                 transition={{ duration: 1 }}
-               >
-                 <div className="inline-flex items-center gap-3 mb-12">
-                   <div className="w-12 h-[1px] bg-white/40"></div>
-                   <span className="text-xs font-mono uppercase tracking-[0.3em] text-white/50">Executive Intake</span>
-                 </div>
-                 
-                 <h1 className="text-6xl md:text-8xl lg:text-9xl font-light tracking-tighter text-white mb-8 leading-[0.9]">
-                   Shape <br/> <span className="font-serif italic text-white/40 ml-12">history.</span>
-                 </h1>
-                 
-                 <p className="text-xl md:text-2xl text-white/60 font-light max-w-md leading-relaxed">
-                   We partner exclusively with visionaries. Let&apos;s engineer a digital presence that cannot be ignored.
-                 </p>
-               </motion.div>
+      <div className="max-w-6xl mx-auto px-6 relative z-10 flex flex-col items-center">
+        
+        {/* Header Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16 max-w-3xl"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-6">
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+            <span className="text-xs uppercase tracking-widest text-white/70">Let's Connect</span>
+          </div>
+          <h1 className="text-5xl md:text-7xl font-sans font-light tracking-tight text-white mb-6">
+            Get in <span className="font-semibold">Touch.</span>
+          </h1>
+          <p className="text-lg md:text-xl text-white/50 font-light leading-relaxed">
+            Whether you have a specific project in mind or just want to explore possibilities, 
+            our team is ready to help you amplify your digital presence.
+          </p>
+        </motion.div>
 
-               {/* Direct Contact Hover Rows (Replacing the basic cards) */}
-               <div className="grid grid-cols-1 mt-24 gap-y-2 border-t border-white/10 pt-12">
-                  <a href="mailto:anplifycodigital@gmail.com" className="group flex items-center justify-between py-6 border-b border-white/10 hover:border-white/50 transition-colors duration-500">
-                     <div className="flex items-center gap-6">
-                       <span className="text-sm font-mono tracking-widest text-white/40 group-hover:text-white transition-colors duration-500">01</span>
-                       <span className="text-2xl font-light tracking-wide text-white/70 group-hover:text-white transition-colors duration-500">Email Dossier</span>
-                     </div>
-                     <Mail className="w-5 h-5 text-white/30 group-hover:text-white group-hover:translate-x-2 transition-all duration-500" />
-                  </a>
-                  
-                  <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between py-6 border-b border-white/10 hover:border-white/50 transition-colors duration-500">
-                     <div className="flex items-center gap-6">
-                       <span className="text-sm font-mono tracking-widest text-white/40 group-hover:text-white transition-colors duration-500">02</span>
-                       <span className="text-2xl font-light tracking-wide text-white/70 group-hover:text-white transition-colors duration-500">Encrypted Chat</span>
-                     </div>
-                     <MessageCircle className="w-5 h-5 text-white/30 group-hover:text-white group-hover:translate-x-2 transition-all duration-500" />
-                  </a>
-                  
-                  <a href="https://instagram.com/amplifyco.digital" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between py-6 border-b border-white/10 hover:border-white/50 transition-colors duration-500">
-                     <div className="flex items-center gap-6">
-                       <span className="text-sm font-mono tracking-widest text-white/40 group-hover:text-white transition-colors duration-500">03</span>
-                       <span className="text-2xl font-light tracking-wide text-white/70 group-hover:text-white transition-colors duration-500">Social Grid</span>
-                     </div>
-                     <Instagram className="w-5 h-5 text-white/30 group-hover:text-white group-hover:translate-x-2 transition-all duration-500" />
-                  </a>
-               </div>
-
+        {/* Contact Information Cards */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mb-16"
+        >
+          <a href="mailto:hello@amplifyco.digital" className="flex flex-col items-center justify-center p-8 rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md hover:border-white/30 hover:bg-white/5 transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-white text-white group-hover:text-black transition-all">
+              <Mail className="w-5 h-5" />
             </div>
+            <h3 className="text-white font-medium mb-1">Email Us</h3>
+            <p className="text-white/50 text-sm">amplifycodigital@gmail.com</p>
+          </a>
+          
+          <div className="flex flex-col items-center justify-center p-8 rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md hover:border-white/30 hover:bg-white/5 transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-white text-white group-hover:text-black transition-all">
+              <MapPin className="w-5 h-5" />
+            </div>
+            <h3 className="text-white font-medium mb-1">Location</h3>
+            <p className="text-white/50 text-sm">Global Remote / Online</p>
+          </div>
 
-         </div>
+          <a href="tel:+917978664410" className="flex flex-col items-center justify-center p-8 rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md hover:border-white/30 hover:bg-white/5 transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-white text-white group-hover:text-black transition-all">
+              <Phone className="w-5 h-5" />
+            </div>
+            <h3 className="text-white font-medium mb-1">Call Us</h3>
+            <p className="text-white/50 text-xs mb-1">+91 7978664410</p>
+            <p className="text-white/50 text-xs">+91 78150 74265</p>
+          </a>
+        </motion.div>
 
-         {/* Right Side: The Zero-Border Minimalist Form */}
-         <div className="w-full lg:w-1/2 min-h-[50vh] lg:min-h-screen flex items-center px-6 md:px-16 lg:px-24 bg-gradient-to-br from-black to-[#050505] relative overflow-hidden">
-            
-            {/* Very faint background gradient linked to the right side */}
-            <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-purple-900/10 blur-[150px] pointer-events-none rounded-full" />
-            
-            <Suspense fallback={<div className="h-96 w-full flex items-center justify-center text-white/30 font-light tracking-widest uppercase">Initializing...</div>}>
-              <ExecutiveIntakeForm />
-            </Suspense>
-
-         </div>
+        {/* The Form */}
+        <Suspense fallback={<div className="h-96 w-full flex items-center justify-center text-white/30 font-light tracking-widest uppercase">Loading Interface...</div>}>
+          <ContactForm />
+        </Suspense>
 
       </div>
-
     </div>
   );
 }

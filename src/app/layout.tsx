@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import Navbar from "@/components/Navbar";
+import AIChat from "@/components/AIChat";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -24,6 +25,7 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans antialiased overflow-x-hidden bg-background text-foreground`}>
         <SmoothScrollProvider>
           <Navbar />
+          <AIChat />
           <main className="relative pt-20">
             {children}
           </main>
