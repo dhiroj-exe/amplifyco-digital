@@ -61,10 +61,10 @@ export default function Services() {
   });
 
   return (
-    <section ref={containerRef} id="capabilities" className="relative w-full bg-[#000] h-[400vh] border-t border-white/5">
+    <section ref={containerRef} id="capabilities" className="relative w-full bg-[#000] h-auto md:h-[400vh] border-t border-white/5">
       
       {/* Pinned Stage that stays in the viewport */}
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
+      <div className="relative md:sticky top-0 min-h-[100dvh] md:h-screen w-full flex items-center justify-center overflow-hidden py-24 md:py-0">
         
         {/* Background Cinematic Grain */}
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-10 mix-blend-overlay" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }}></div>

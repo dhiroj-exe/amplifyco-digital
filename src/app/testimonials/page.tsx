@@ -147,11 +147,10 @@ export default function TestimonialsPage() {
 
                 {/* INACTIVE STATE CONTENT (Book Spines) */}
                 {!isActive && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-end pb-10 pointer-events-none">
-                     <div className="w-1 h-8 bg-white/20 rounded-full mb-6 group-hover:bg-white/50 transition-colors" />
+                  <div className="absolute inset-0 flex flex-row md:flex-col items-center justify-start md:justify-end pl-6 md:pl-0 pb-0 md:pb-10 pointer-events-none">
+                     <div className="w-8 h-1 md:w-1 md:h-8 bg-white/20 rounded-full mr-6 md:mr-0 md:mb-6 group-hover:bg-white/50 transition-colors" />
                      <h3 
-                       className="text-white text-xl font-bold uppercase tracking-[0.3em] whitespace-nowrap rotate-180 opacity-60 group-hover:opacity-100 transition-opacity" 
-                       style={{ writingMode: 'vertical-rl' }}
+                       className="text-white text-xl font-bold uppercase tracking-[0.3em] whitespace-nowrap md:rotate-180 opacity-60 group-hover:opacity-100 transition-opacity md:[writing-mode:vertical-rl]" 
                      >
                         {story.name}
                      </h3>
