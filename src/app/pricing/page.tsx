@@ -5,7 +5,7 @@ import { TrendingUp, Zap, Rocket, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { pricingData } from "@/lib/pricing";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useMotionValue, useSpring, useTransform } from "framer-motion";
 
 export interface PricingTier {
@@ -22,6 +22,7 @@ export interface PricingTier {
 
 const PricingCard = ({ tier, index }: { tier: PricingTier; index: number }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
   
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -93,17 +94,17 @@ const PricingCard = ({ tier, index }: { tier: PricingTier; index: number }) => {
           <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 shadow-inner">
              <Rocket className={`w-5 h-5 ${tier.highlight ? "text-indigo-400" : "text-gray-400 group-hover:text-white transition-colors"}`} />
           </div>
-          <h3 className="text-xl font-medium tracking-wide text-white mb-2">{tier.name}</h3>
-          <p className="text-gray-500 text-xs leading-relaxed h-12 line-clamp-3">{tier.description}</p>
+          <h3 className="text-2xl font-semibold tracking-wide text-white mb-2">{tier.name}</h3>
+          <p className="text-gray-400 text-sm leading-relaxed h-14 line-clamp-3">{tier.description}</p>
         </div>
 
         {/* Pricing Area - Moderate Font Sizes */}
         <div style={{ transform: "translateZ(60px)" }} className="py-6 border-y border-white/5 mb-6">
-          <span className="text-gray-400 font-medium mb-2 block text-[10px] tracking-[0.2em] uppercase">Investment</span>
+          <span className="text-gray-400 font-bold mb-2 block text-[13px] tracking-[0.2em] uppercase">Investment</span>
           <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-             <span className="text-3xl font-light tracking-tighter text-white drop-shadow-lg">{tier.price}</span>
+             <span className="text-4xl font-semibold tracking-tighter text-white drop-shadow-lg">{tier.price}</span>
              {tier.period ? (
-               <span className={`text-gray-400 text-sm border border-white/10 rounded-md px-2 py-0.5 ${tier.period.includes('one-time') ? 'bg-white/5' : ''}`}>
+               <span className={`text-gray-300 text-sm font-medium border border-white/10 rounded-md px-2 py-0.5 ${tier.period.includes('one-time') ? 'bg-white/5' : ''}`}>
                  {tier.period.replace('/', '')}
                </span>
              ) : null}
@@ -111,14 +112,27 @@ const PricingCard = ({ tier, index }: { tier: PricingTier; index: number }) => {
         </div>
 
         {/* Features List */}
-        <ul style={{ transform: "translateZ(30px)" }} className="flex-1 space-y-4 mb-10">
-          {tier.features.map((feature: string, i: number) => (
-            <li key={i} className="flex items-start gap-3">
-              <div className={`mt-1 w-1.5 h-1.5 rounded-full shrink-0 ${feature.startsWith('✔') ? 'bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.8)]' : 'bg-gray-700'}`} />
-              <span className={`text-[12px] leading-relaxed ${feature.startsWith('✔') ? 'text-gray-200' : 'text-gray-500'}`}>{feature.replace('✔ ', '').replace('❌ ', '')}</span>
-            </li>
-          ))}
-        </ul>
+        <div style={{ transform: "translateZ(30px)" }} className="flex-1 mb-10 flex flex-col">
+          <ul className="space-y-4 mb-4">
+            {(isExpanded ? tier.features : tier.features.slice(0, 4)).map((feature: string, i: number) => (
+              <li key={i} className="flex items-start gap-3">
+                <div className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${feature.startsWith('✔') ? 'bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.8)]' : 'bg-gray-700'}`} />
+                <span className={`text-sm leading-relaxed ${feature.startsWith('✔') ? 'text-gray-200' : 'text-gray-400'}`}>{feature.replace('✔ ', '').replace('❌ ', '')}</span>
+              </li>
+            ))}
+          </ul>
+          {tier.features.length > 4 && (
+            <button 
+              onClick={(e) => {
+                e.preventDefault();
+                setIsExpanded(!isExpanded);
+              }} 
+              className="text-indigo-400 hover:text-indigo-300 text-sm font-semibold transition-colors text-left mt-2 flex items-center py-2"
+            >
+              {isExpanded ? "View less features" : `View all features (${tier.features.length})`}
+            </button>
+          )}
+        </div>
         
         {/* Action Button */}
         <div style={{ transform: "translateZ(50px)" }} className="w-full mt-auto relative group/btn">
@@ -126,14 +140,14 @@ const PricingCard = ({ tier, index }: { tier: PricingTier; index: number }) => {
           <div className={`absolute inset-0 rounded-2xl blur-md transition-opacity duration-300 ${tier.highlight ? "bg-indigo-500/50 opacity-100 group-active/btn:opacity-50" : "bg-white/20 opacity-0 group-hover/btn:opacity-100"}`} />
           <Link 
             href={`/pricing/${tier.id}`}
-            className={`relative flex items-center justify-between w-full rounded-2xl h-12 px-6 text-xs font-bold tracking-widest transition-all overflow-hidden ${
+            className={`relative flex items-center justify-between w-full rounded-2xl h-14 px-6 text-sm font-bold tracking-widest transition-all overflow-hidden ${
               tier.highlight 
                 ? "bg-gradient-to-r from-indigo-500 to-indigo-600 text-white border border-indigo-400/50" 
                 : "bg-white/5 border border-white/10 text-white hover:bg-white/10"
             }`}
           >
             <span>{tier.cta.toUpperCase()}</span>
-            <ArrowRight className="w-3.5 h-3.5 transform group-hover/btn:translate-x-1 transition-transform" />
+            <ArrowRight className="w-5 h-5 transform group-hover/btn:translate-x-1 transition-transform" />
           </Link>
         </div>
       </div>
@@ -144,7 +158,7 @@ const PricingCard = ({ tier, index }: { tier: PricingTier; index: number }) => {
 const PricingSection = ({ packages }: { packages: PricingTier[] }) => {
   return (
     <div className="mb-20 perspective-[2000px]">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-[1200px] mx-auto items-stretch relative mt-12 px-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-[1200px] mx-auto items-start relative mt-12 px-4">
         {packages.map((tier: PricingTier, index: number) => (
           <PricingCard key={index} tier={tier} index={index} />
         ))}

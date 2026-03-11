@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import React, { useRef, useState } from "react";
 
+import Link from "next/link";
 import { Twitter, Linkedin, Instagram, Eye, Sparkles, Zap } from "lucide-react";
 
 const founders = [
@@ -261,9 +262,13 @@ export default function AboutPage() {
               <p className="text-gray-300 text-lg leading-relaxed mb-6">
                 AmplifyCO was founded on a simple premise: most businesses have incredible products but terrible online presence. In a world driven by aesthetics and instantly categorized value, an outdated website or poor social strategy literally burns money.
               </p>
-              <p className="text-gray-300 text-lg leading-relaxed">
+              <p className="text-gray-300 text-lg leading-relaxed mb-6">
                 We bridge that gap. We don&apos;t just &quot;build websites&quot; or &quot;post on social media.&quot; We engineer comprehensive digital identities that command respect, capture attention, and drive unrelenting growth for ambitious brands worldwide.
               </p>
+              <Link href="/pricing" className="inline-flex items-center gap-2 text-indigo-400 font-semibold hover:text-indigo-300 transition-colors">
+                Explore our packages
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+              </Link>
             </div>
           </motion.div>
         </div>

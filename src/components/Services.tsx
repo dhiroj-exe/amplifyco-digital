@@ -191,7 +191,7 @@ export default function Services() {
                      </div>
 
                      {/* The Exploded Button */}
-                     <Link href={`/services/${activeService.id}`} className="group relative overflow-hidden rounded-full inline-flex w-full sm:w-auto p-[1px]">
+                     <Link href="/contact" className="group relative overflow-hidden rounded-full inline-flex w-full sm:w-auto p-[1px]">
                          <span 
                            className="absolute inset-[-1000%] animate-[spin_4s_linear_infinite]" 
                            style={{ backgroundImage: `conic-gradient(from 90deg at 50% 50%, ${activeService.color} 0%, transparent 50%)`, opacity: 0.8 }}

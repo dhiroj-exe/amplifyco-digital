@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import React, { useState } from "react";
+import Link from "next/link";
 import Testimonials from "@/components/Testimonials";
 import Portfolio from "@/components/Portfolio";
 import { Star, TrendingUp, Target, BarChart } from "lucide-react";
@@ -201,6 +202,15 @@ export default function TestimonialsPage() {
               </motion.div>
             );
           })}
+        </div>
+
+        {/* Call to Action */}
+        <div className="mt-32 text-center pb-12">
+          <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-6">Ready to be our next success story?</h3>
+          <p className="text-gray-400 mb-8 max-w-xl mx-auto">Stop reading about other brands&apos; growth and start engineering your own.</p>
+          <Link href="/contact" className="inline-block px-8 py-4 rounded-full bg-white text-black font-semibold hover:bg-gray-200 transition-colors">
+            Start Your Project
+          </Link>
         </div>
       </div>
     </div>

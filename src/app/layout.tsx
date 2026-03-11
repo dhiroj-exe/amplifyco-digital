@@ -4,6 +4,7 @@ import "./globals.css";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import Navbar from "@/components/Navbar";
 import AIChat from "@/components/AIChat";
+import Footer from "@/components/Footer";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -29,6 +30,7 @@ export default function RootLayout({
           <main className="relative pt-20">
             {children}
           </main>
+          <Footer />
         </SmoothScrollProvider>
       </body>
     </html>

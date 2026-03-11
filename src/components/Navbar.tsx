@@ -102,7 +102,6 @@ export default function Navbar() {
                 <Button 
                   variant="default" 
                   className="w-full justify-center rounded-full bg-white text-black hover:bg-gray-200 transition-colors"
-                  asChild
                 >
                   <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>Start Project</Link>
                 </Button>
