@@ -4,7 +4,8 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Physics, useSphere, useBox } from "@react-three/cannon";
 import { Environment } from "@react-three/drei";
 import * as THREE from "three";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // The invisible sphere that tracks the mouse to push physical objects around
 function MousePointer() {
@@ -47,17 +48,6 @@ function InstancedSpheres({ count = 80 }) {
     clearcoat: 1,
   }), []);
 
-  // Soft boundaries so the balls don't fly off screen forever
-  useFrame(() => {
-    if (!ref.current) return;
-    
-    // Boundary enforcement handled by physics engine (Cannon)
-    // We apply slight forces towards the center if they drift too far
-    for (let i = 0; i < count; i++) {
-        // Just a subtle gravity towards center z-plane
-    }
-  });
-
   return (
     <instancedMesh ref={ref as React.MutableRefObject<THREE.InstancedMesh>} castShadow receiveShadow args={[undefined, material, count]}>
       <sphereGeometry args={[1, 32, 32]} />
@@ -90,25 +80,50 @@ function PhysicsBounds() {
 }
 
 export default function InteractiveScene3D() {
+  const isMobile = useIsMobile();
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <Canvas 
-      shadows 
-      camera={{ position: [0, 0, 20], fov: 45 }}
-      style={{ cursor: "crosshair" }}
-    >
-      <color attach="background" args={["#030303"]} />
-      
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[10, 10, 10]} intensity={2} castShadow color="#ffffff" />
-      <directionalLight position={[-10, -10, -10]} intensity={1} color="#3b82f6" />
-      
-      <Physics gravity={[0, 0, 0]} defaultContactMaterial={{ restitution: 0.8, friction: 0.1 }}>
-        <PhysicsBounds />
-        <MousePointer />
-        <InstancedSpheres count={60} />
-      </Physics>
-      
-      <Environment preset="city" />
-    </Canvas>
+    <div ref={containerRef} className="w-full h-full relative pointer-events-none">
+      {isVisible && !isMobile && (
+        <Canvas 
+          shadows 
+          dpr={[1, 1.5]}
+          gl={{ powerPreference: "high-performance", antialias: true }}
+          camera={{ position: [0, 0, 20], fov: 45 }}
+          style={{ cursor: "crosshair" }}
+        >
+          <color attach="background" args={["#030303"]} />
+          
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[10, 10, 10]} intensity={2} castShadow color="#ffffff" />
+          <directionalLight position={[-10, -10, -10]} intensity={1} color="#3b82f6" />
+          
+          <Physics gravity={[0, 0, 0]} defaultContactMaterial={{ restitution: 0.8, friction: 0.1 }}>
+            <PhysicsBounds />
+            <MousePointer />
+            <InstancedSpheres count={60} />
+          </Physics>
+          
+          <Environment preset="city" />
+        </Canvas>
+      )}
+    </div>
   );
 }

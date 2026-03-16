@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // A highly dynamic, forward-moving particle tunnel
 function WarpTunnel() {
@@ -71,10 +72,6 @@ function WarpTunnel() {
         positions[i * 3 + 2] = z;
         
         dummy.position.set(x, y, z);
-        
-        // Add a warp stretch effect based on speed
-        // dummy.scale.set(0.2, 0.2, speeds[i] * 0.1); 
-        
         dummy.updateMatrix();
         meshRef.current.setMatrixAt(i, dummy.matrix);
     }
@@ -84,7 +81,6 @@ function WarpTunnel() {
 
   return (
     <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
-      {/* Tiny elongated boxes look like warp trails */}
       <boxGeometry args={[0.05, 0.05, 2]}>
         <instancedBufferAttribute 
             attach="attributes-color" 
@@ -97,18 +93,39 @@ function WarpTunnel() {
 }
 
 export default function Network3D() {
+  const isMobile = useIsMobile();
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="w-full h-full absolute inset-0 pointer-events-none">
-      <Canvas 
-        camera={{ position: [0, 0, 0], fov: 75 }} 
-        dpr={[1, 2]} 
-        gl={{ powerPreference: "high-performance", antialias: false, alpha: true }} 
-        frameloop="always"
-      >
-        <color attach="background" args={["#000000"]} />
-        <fog attach="fog" args={["#000000", 10, 80]} />
-        <WarpTunnel />
-      </Canvas>
+    <div ref={containerRef} className="w-full h-full absolute inset-0 pointer-events-none">
+      {isVisible && !isMobile && (
+        <Canvas 
+          camera={{ position: [0, 0, 0], fov: 75 }} 
+          dpr={[1, 1.5]} 
+          gl={{ powerPreference: "high-performance", antialias: false, alpha: true }} 
+          frameloop="always"
+        >
+          <color attach="background" args={["#000000"]} />
+          <fog attach="fog" args={["#000000", 10, 80]} />
+          <WarpTunnel />
+        </Canvas>
+      )}
     </div>
   );
 }
