@@ -52,7 +52,14 @@ export default function Services() {
   });
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    const sectionIndex = Math.min(Math.floor(latest * services.length), services.length - 1);
+    // Custom thresholds to give the 3rd card (index 2) more visibility time
+    // 0: [0, 0.22], 1: [0.22, 0.44], 2: [0.44, 0.78], 3: [0.78, 1]
+    let sectionIndex = 0;
+    if (latest < 0.22) sectionIndex = 0;
+    else if (latest < 0.44) sectionIndex = 1;
+    else if (latest < 0.78) sectionIndex = 2;
+    else sectionIndex = 3;
+
     if (sectionIndex !== activeIndex) {
       setActiveIndex(sectionIndex);
     }
@@ -62,7 +69,7 @@ export default function Services() {
   const spotlightY = useTransform(scrollYProgress, [0, 1], ["30%", "70%"]);
 
   return (
-    <section ref={containerRef} id="capabilities" className={`relative w-full bg-[#000] ${isMobile ? 'h-auto py-24' : 'h-[400vh]'}`}>
+    <section ref={containerRef} id="capabilities" className={`relative w-full bg-[#000] ${isMobile ? 'h-auto py-24' : 'h-[600vh]'}`}>
       <div className={`${isMobile ? 'relative' : 'sticky top-0 h-screen'} w-full flex items-center justify-center overflow-hidden`}>
         
         {/* Dynamic Cinematic Spotlight - Disabled on Mobile */}
@@ -89,7 +96,7 @@ export default function Services() {
                   transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                   className="mb-8"
                 >
-                  <span className="text-xs font-mono uppercase tracking-[0.5em] text-white/40 mb-4 block">Capabilites / Radical Execution</span>
+                  <span className="text-xs font-mono uppercase tracking-[0.5em] text-white/40 mb-4 block">Capabilities / Radical Execution</span>
                   <h2 className="text-2xl font-light text-white/20 tracking-widest uppercase">The Impact</h2>
                 </motion.div>
 
