@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -27,8 +28,15 @@ export default function Navbar() {
       <header className="fixed top-0 left-0 w-full z-50 py-4 px-6 md:px-12 backdrop-blur-md bg-[#0b0b0b]/60 border-b border-white/5 transition-all duration-300">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <Link href="/" className="flex items-center gap-1">
-          {/* We're using standard img tag here to maintain simple natural sizing for the logo */}
-          <img src="/logo.png" alt="AmplifyCO.digital Logo" className="h-20 w-auto object-contain transition-transform hover:scale-105 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]" />
+          {/* Bolt ⚡: Swapped raw img for next/image for automatic optimization, faster LCP, and reduced bandwidth */}
+          <Image
+            src="/logo.png"
+            alt="AmplifyCO.digital Logo"
+            width={80}
+            height={80}
+            className="h-20 w-auto object-contain transition-transform hover:scale-105 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+            priority
+          />
           <span className="text-xl font-sans font-bold tracking-tighter hidden sm:block text-white">
             AmplifyCO<span className="text-gray-400 font-light">.digital</span>
           </span>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -41,7 +42,14 @@ export default function Footer() {
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between text-gray-500 text-sm">
           <div className="flex items-center gap-3 mb-4 md:mb-0">
             <Link href="/">
-              <img src="/logo.png" alt="AmplifyCO Logo" className="h-10 w-auto object-cover rounded-xl grayscale opacity-50 hover:grayscale-0 hover:opacity-100 hover:scale-105 transition-all shadow-[0_0_10px_rgba(255,255,255,0.05)] cursor-pointer" />
+              {/* Bolt ⚡: Swapped raw img for next/image for automatic optimization, faster LCP, and reduced bandwidth */}
+              <Image
+                src="/logo.png"
+                alt="AmplifyCO Logo"
+                width={40}
+                height={40}
+                className="h-10 w-auto object-cover rounded-xl grayscale opacity-50 hover:grayscale-0 hover:opacity-100 hover:scale-105 transition-all shadow-[0_0_10px_rgba(255,255,255,0.05)] cursor-pointer"
+              />
             </Link>
             <p>AmplifyCO.digital © 2026. All rights reserved.</p>
           </div>
