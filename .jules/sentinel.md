@@ -1,0 +1,4 @@
+## 2024-05-18 - Missing Input Validation and Length Limits
+**Vulnerability:** The API endpoints (`/api/lead/route.ts` and `/api/meeting/route.ts`) verified the presence of required fields like `name` and `email` but did not validate their formats (e.g., verifying if the email string actually matched an email pattern) nor did they enforce any length restrictions.
+**Learning:** Checking truthiness (`!email`) is insufficient for untrusted user input. Without format validation, invalid data can be stored. Without length limits, the application is susceptible to excessively large payloads, potentially leading to denial of service or unexpected database behaviors.
+**Prevention:** Always implement strong, explicit input validation for format (using RegEx or libraries like Zod) and enforce strict length maximums for all string inputs accepted via public APIs.

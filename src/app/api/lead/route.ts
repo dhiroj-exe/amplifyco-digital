@@ -14,6 +14,18 @@ export async function POST(request: Request) {
       );
     }
 
+    // Security Enhancement: Input validation and length limits
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (typeof email !== 'string' || !emailRegex.test(email) || email.length > 254) {
+      return NextResponse.json({ error: 'Invalid email format or length.' }, { status: 400 });
+    }
+    if (typeof name !== 'string' || name.length > 100) {
+      return NextResponse.json({ error: 'Invalid name format or length.' }, { status: 400 });
+    }
+    if (message && (typeof message !== 'string' || message.length > 2000)) {
+      return NextResponse.json({ error: 'Message exceeds maximum length.' }, { status: 400 });
+    }
+
     if (!supabaseAdmin) {
       console.warn('Supabase not configured. Simulating lead capture for development.');
       return NextResponse.json({ success: true, message: 'Lead captured successfully (simulated).' });
